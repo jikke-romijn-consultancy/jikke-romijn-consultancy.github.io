@@ -217,9 +217,6 @@
             for (let i = 0; i < this.defaults.currentPosition; i++) {
                 position += heights[i + 1];
             }
-            
-            //var position = document.getElementsByTagName("section")[this.defaults.currentPosition].getBoundingClientRect().top;
-           
 
             this.defaults.container.style.webkitTransform = 'translateY(-' + position + 'px)';
             this.defaults.container.style.mozTransform = 'translateY(-' + position + 'px)';
