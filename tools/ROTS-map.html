@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ROTS map</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="/css/leaflet.css">
+        <link rel="stylesheet" href="/css/PruneCluster.css">
+        <link rel="stylesheet" href="/css/nouislider.min.css">
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            html, body, #map {
+                height: 100%;
+                width: 100vw;
+            }
+
+            #drop-area {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            #drop-area.drag-over {
+                background-color: #eee;
+            }
+
+            #slider {
+                margin: 10px 0;
+                width: 200px;
+                padding: 0 16px;
+            }
+
+            #bounds-container {
+                display: flex;
+                width: 200px;
+            }
+
+            #left-bound {
+                margin-right: auto;
+            }
+
+            #left-bound, #right-bound {
+                width: 50px;
+            }
+
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            input[type=number] {
+                appearance: textfield;
+            }
+
+            .panel {
+                display: none;
+                overflow: hidden;
+            }
+
+            #filter-control {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #filter-control > strong {
+                text-align: center;
+                font-size: 1.5rem;
+            }
+
+            .accordion {
+                text-align: left;
+                border: 0;
+                background-color: white;
+                cursor: pointer;
+                font-size: 1rem;
+            }
+
+            .accordion::before {
+                content: "";
+                width: 1rem;
+                height: 1rem;
+                transition: 120ms transform ease-in-out;
+                background-color: black;
+                clip-path: polygon(20% 0%, 70% 0%, 100% 50%, 70% 100%, 20% 100%, 50% 50%);
+                display: inline-block;
+                margin-right: 10px;
+            }
+
+            .accordion.active::before {
+                transform: rotate(90deg);
+            }
+        </style>
+    </head>
+    <body>
+        <label id="datafile-label" for="datafile">
+            <div id="drop-area">
+                <span style="font-size: 2rem; font-weight: bold;">Select file</span>
+                <span style="font-size: 1.5rem;">Or drag and drop file</span>
+            </div>
+        </label>
+        <input type="file" id="datafile" accept="text/csv" hidden>
+        <script src="/js/papaparse.min.js"></script>
+        <script src="/js/leaflet.js"></script>
+        <script src="/js/PruneCluster.js"></script>
+        <script src="/js/nouislider.min.js"></script>
+        <script>
+            var map;
+            var allMarkers = [];
+            var filterProperties = {};
+            var filterControl;
+            var allFilterProperties = [];
+            var leafletView = new PruneClusterForLeaflet();
+
+            if (document.getElementById("datafile").files[0]) {
+                loadMap();
+
+                parseCSV(document.getElementById("datafile").files[0]);
+            } else {
+                document.getElementById("datafile").addEventListener("change", event => {
+                    const file = event.target.files[0];
+
+                    if (file) {
+                        loadMap();
+
+                        parseCSV(file);
+                    }
+                });
+            }
+
+            function parseCSV(file) {
+                Papa.parse(file, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: results => setFilters(results.data)
+                });
+            }
+
+            function loadMap() {
+                let mapElement = document.createElement("div");
+                mapElement.id = "map";
+                document.body.appendChild(mapElement);
+
+                document.getElementById("datafile-label").style = "display: none;";
+
+                map = L.map("map").setView([52.23880864113115, 5.3716335561747455], 8);
+
+                L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
+            }
+
+            function setFilters(data) {
+                allFilterProperties = Object.keys(data[0]).filter(f => !["Lengtegraad", "Breedtegraad"].includes(f));
+
+                addFilters(data);
+                addPins(data);
+            }
+
+            function addFilters(data) {
+                for (filterProperty of allFilterProperties) {
+                    if (!(filterProperty in filterProperties))
+                        filterProperties[filterProperty] = [];
+                }
+
+                for (pinData of data) {
+                    for (filterProperty of allFilterProperties) {
+                        if (!filterProperties[filterProperty].includes(pinData[filterProperty])) {
+                            if (parseInt(pinData[filterProperty])) {
+                                filterProperties[filterProperty].push(parseInt(pinData[filterProperty]));
+                            } else {
+                                filterProperties[filterProperty].push(pinData[filterProperty]);
+                            }
+                        }
+                    }
+                }
+
+                const FilterControl = L.Control.extend({
+                    onAdd: () => {
+                        const div = L.DomUtil.create("div", "leaflet-control-layers leaflet-control");
+                        div.id = "filter-control";
+                        div.innerHTML = "<strong>Filters</strong>";
+
+                        div.style.padding = "10px";
+
+                        for (const [filterProperty, filterValues] of Object.entries(filterProperties)) {
+                            let accordionButton = document.createElement("button");
+                            accordionButton.classList += "accordion";
+                            accordionButton.innerHTML = `<strong>${filterProperty}</strong>`;
+                            div.appendChild(accordionButton);
+
+                            let panel = document.createElement("div");
+                            panel.classList += "panel";
+
+                            if (filterProperty.startsWith("D-ROTS")) {
+                                let slider = document.createElement("div");
+                                slider.id = "slider";
+                                
+                                panel.appendChild(slider);
+
+                                let min = Math.min(...filterProperties[filterProperty]);
+                                let max = Math.max(...filterProperties[filterProperty]);
+
+                                noUiSlider.create(slider, {
+                                    start: [min, max],
+                                    connect: true,
+                                    step: 1,
+                                    range: {
+                                        "min": min,
+                                        "max": max
+                                    }
+                                });
+
+                                let leftBoundElem = document.createElement("input");
+                                leftBoundElem.setAttribute("type", "number");
+                                leftBoundElem.id = "left-bound";
+
+                                let rightBoundElem = document.createElement("input");
+                                rightBoundElem.setAttribute("type", "number");
+                                rightBoundElem.id = "right-bound";
+
+                                let boundContainerElem = document.createElement("div");
+                                boundContainerElem.id = "bounds-container";
+
+                                boundContainerElem.appendChild(leftBoundElem);
+                                boundContainerElem.appendChild(rightBoundElem);
+
+                                panel.appendChild(boundContainerElem);
+
+                                slider.noUiSlider.on("update", (values, handle) => {
+                                    let value = values[handle];
+
+                                    if (handle) {
+                                        rightBoundElem.value = Math.round(value);
+                                    } else {
+                                        leftBoundElem.value = Math.round(value);
+                                    }
+
+                                    let filter = buildFilter();
+
+                                    redrawMarkersWithFilter(filter);
+                                });
+
+                                leftBoundElem.addEventListener("change", e => {
+                                    slider.noUiSlider.set([e.target.value, null]);
+                                });
+
+                                rightBoundElem.addEventListener("change", e => {
+                                    slider.noUiSlider.set([null, e.target.value]);
+                                });
+                            } else {
+                                for (filterValue of filterValues) {
+                                    panel.innerHTML += `<label><input type="checkbox" class="filter" name="${filterProperty}.${filterValue}" checked> ${filterValue}</label>`;
+                                }
+                            }
+
+                            accordionButton.addEventListener("click", () => {
+                                accordionButton.classList.toggle("active");
+
+                                if (panel.style.display === "block") {
+                                    panel.style.display = "none";
+                                } else {
+                                    panel.style.display = "block";
+                                }
+                            });
+
+                            div.appendChild(panel);
+                        }
+
+                        L.DomEvent.disableClickPropagation(div);
+                        return div;
+                    },
+                    onRemove: () => {}
+                });
+
+                filterControl = new FilterControl({ position: "topright" });
+                map.addControl(filterControl);
+
+                document.querySelectorAll(".filter").forEach(el => {
+                    el.addEventListener("change", _ => {
+                        let filter = buildFilter();
+
+                        redrawMarkersWithFilter(filter);
+                    });
+                });
+            }
+
+            function redrawMarkersWithFilter(filter) {
+                leafletView.RemoveMarkers(leafletView.GetMarkers());
+
+                allMarkers.filter(filter).forEach(marker => {
+                    let pin = createPin(marker);
+                    
+                    leafletView.RegisterMarker(pin);
+                });
+
+                leafletView.PrepareLeafletMarker = (marker, data) => {
+                    if (marker.getPopup()) {
+                        marker.setPopupContent(data.title);
+                    } else {
+                        marker.bindPopup(data.title);
+                    }
+                };
+
+                leafletView.ProcessView();
+            }
+
+            function addPins(data) {
+                for (pinData of data) {
+                    allMarkers.push(pinData);
+
+                    let pin = createPin(pinData);
+
+                    leafletView.RegisterMarker(pin);
+                }
+
+                leafletView.PrepareLeafletMarker = (marker, data) => {
+                    if (marker.getPopup()) {
+                        marker.setPopupContent(data.title);
+                    } else {
+                        marker.bindPopup(data.title);
+                    }
+                };
+
+                map.addLayer(leafletView);
+            }
+
+            function buildFilter() {
+                let activeFilters = {}
+
+                for (filterProperty of allFilterProperties) {
+                    activeFilters[filterProperty] = [];
+                }
+
+                document.querySelectorAll(".filter:checked").forEach(el => {
+                    elFilter = el.getAttribute("name").split(".");
+
+                    activeFilters[elFilter[0]].push(elFilter[1]);
+                });
+
+                let leftBound = 0;
+                let rightBound = Infinity;
+
+                if (document.getElementById("left-bound")) {
+                    leftBound = parseInt(document.getElementById("left-bound").value);
+                    rightBound = parseInt(document.getElementById("right-bound").value);
+                }
+
+                return data => {
+                    for (const [filterProperty, filterValues] of Object.entries(activeFilters)) {
+                        if (filterProperty.startsWith("D-ROTS")) {
+                            if (!(leftBound <= data[filterProperty] && data[filterProperty] <= rightBound))
+                                return false;
+                        } else {
+                            if (!filterValues.includes(data[filterProperty]))
+                                return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            function createPin(pinData) {
+                let description = "";
+
+                for (const [key, value] of Object.entries(pinData)) {
+                    if (["Lengtegraad", "Breedtegraad"].includes(key)) continue;
+
+                    description += `<b>${key}</b>: ${value}<br>`; 
+                }
+
+                let pin = new PruneCluster.Marker(pinData["Lengtegraad"], pinData["Breedtegraad"], { title: description });
+                
+                return pin;
+            }
+
+            const dropArea = document.getElementById("drop-area");
+
+            dropArea.addEventListener("dragover", e => { e.preventDefault(); e.stopPropagation() });
+            dropArea.addEventListener("dragenter", e => { e.preventDefault(); e.stopPropagation() });
+            dropArea.addEventListener("dragleave", e => { e.preventDefault(); e.stopPropagation() });
+
+            dropArea.addEventListener("drop", e => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const file = e.dataTransfer.files[0];
+                
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                document.getElementById("datafile").files = dataTransfer.files;
+
+                loadMap();
+                parseCSV(file);
+            });
+
+            dropArea.addEventListener("dragover", () => {
+                dropArea.classList.add("drag-over");
+            });
+
+            dropArea.addEventListener("dragleave", () => {
+                dropArea.classList.remove("drag-over");
+            });
+        </script>
+    </body>
+</html>
