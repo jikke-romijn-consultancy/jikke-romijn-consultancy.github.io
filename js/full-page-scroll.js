@@ -46,6 +46,8 @@
      * Init plugin
      */
     fullScroll.prototype.init = function () {
+        window.scrollingEnabled = true;
+
         this.buildPublicFunctions()
             .buildSections()
             .buildDots()
@@ -143,6 +145,8 @@
         var _self = this;
 
         this.mouseWheelAndKey = function (event) {
+            if (!window.scrollingEnabled) return;
+
             if (event.deltaY > 0 || event.keyCode == 40) {    
                 _self.defaults.currentPosition ++;
                 _self.changeCurrentPosition(_self.defaults.currentPosition);                
@@ -154,11 +158,15 @@
         };
 
         this.touchStart = function (event) {
+            if (!window.scrollingEnabled) return;
+
             mTouchStart = parseInt(event.changedTouches[0].clientY);
             mTouchEnd = 0;
         };
 
         this.touchEnd = function (event) {
+            if (!window.scrollingEnabled) return;
+
             mTouchEnd = parseInt(event.changedTouches[0].clientY);
             if (mTouchEnd - mTouchStart > 100 || mTouchStart - mTouchEnd > 100) {
                 if (mTouchEnd > mTouchStart) {
@@ -171,6 +179,8 @@
         };
 
         this.hashChange = function (event) {
+            if (!window.scrollingEnabled) return;
+            
             if (location) {
                 var anchor = location.hash.replace('#', '').split('/')[0];
                 if (anchor !== "") {
