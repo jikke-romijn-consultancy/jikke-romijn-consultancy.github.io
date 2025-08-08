@@ -9,7 +9,7 @@
         <title>Jikke Romijn Consultancy</title>
     </head>
     <body>
-        <div class="hero">
+        <div class="hero position-relative">
             <span class="hero-text-small">
                 Jikke Romijn Consultancy
             </span>
@@ -20,34 +20,36 @@
         </div>
         <div id="main" class="scroll-container">
             <section style="height: 0;"></section>
-            <section class="scrollsection container-fluid d-flex">
-                <div class="row">
-                    <div class="col-sm-8 col-md-7 col-lg-6 p-5 d-flex flex-column">
-                        <div class="row">
-                            <span class="header">Over mij</span>
-                        </div>
-                        <div class="row flex-grow-1">
-                            <span class="text subtext">
-                                Na 25 jaar in onderzoeks- en strategierollen bij internationale mediabureaus,
-                                zet ik sinds 2024 mijn ervaring en kwaliteiten in als zelfstandig consultant.
-                                Na zo'n lange tijd te hebben vertrouwd op de kracht van het netwerk van mijn
-                                werkgevers, leek het me avontuurlijk en inspirerend om het helemaal zelf te
-                                gaan doen en mijn opdrachtgevers te zoeken binnen een breder spectrum aan
-                                organisaties. De gemene deler in mijn werk? Mijn opdrachten gaan over het
-                                betekenisvol maken van data.
-                            </span>
-                        </div>
-                        <div class="row">
-                            <span class="quote">
-                                25 jaar ervaring met grote Nederlandse merken, nu voor iedere organisatie toegankelijk
-                            </span>
+            <section class="scrollsection position-relative">
+                <div class="about-image"></div>
+                <div class="container d-flex">
+                    <div class="row">
+                        <div class="col-12 col-md-7 col-lg-6 py-4 d-flex flex-column">
+                            <div class="row">
+                                <span class="header">Over mij</span>
+                            </div>
+                            <div class="row flex-grow-1">
+                                <span class="text subtext">
+                                    Na 25 jaar in onderzoeks- en strategierollen bij internationale mediabureaus,
+                                    zet ik sinds 2024 mijn ervaring en kwaliteiten in als zelfstandig consultant.
+                                    Na zo'n lange tijd te hebben vertrouwd op de kracht van het netwerk van mijn
+                                    werkgevers, leek het me avontuurlijk en inspirerend om het helemaal zelf te
+                                    gaan doen en mijn opdrachtgevers te zoeken binnen een breder spectrum aan
+                                    organisaties. De gemene deler in mijn werk? Mijn opdrachten gaan over het
+                                    betekenisvol maken van data.
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="quote">
+                                    25 jaar ervaring met grote Nederlandse merken, nu voor iedere organisatie toegankelijk
+                                </span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-4 col-md-5 col-lg-6 d-none d-sm-block p-0 about-image"></div>
                 </div>
             </section>
             <section class="scrollsection">
-                <div class="container-md d-flex flex-column h-100 p-3">
+                <div class="container-md d-flex flex-column h-100">
                     <div class="row">
                         <span class="header">Wat ik doe</span>
                     </div>
@@ -95,10 +97,11 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="flex-grow-1"></div>
                 </div>
             </section>
             <section class="scrollsection">
-                <div class="container-md d-flex flex-column h-100 p-3">
+                <div class="container-md d-flex flex-column h-100">
                     <div class="row">
                         <span class="header">Mijn aanpak</span>
                     </div>
@@ -180,7 +183,7 @@
                 </div>
             </section>
             <section class="scrollsection">
-                <div class="container-md p-3">
+                <div class="container-md">
                     <div class="row">
                         <span class="header">Opdrachten</span>
                     </div>
@@ -274,21 +277,37 @@
                     </div>
                 </div>
             </section>
-            <section class="scrollsection container-fluid">
-                <div class="row h-75 contact-image align-items-end">
-                    <span>Heb je een vraag voor mij? Je vindt mij hier:</span>
-                </div>
-                <div class="row h-25 align-items-center">
-                    <div class="col-12 col-xsm-6">
-                        <span class="text-large">Telefoon: <a href="tel:+31654656480">+31 6 5465 6480</a></span>
+            <section class="scrollsection position-relative">
+                <div class="contact-image"></div>
+                <div class="container-md d-flex z-1">
+                    <div class="d-none d-md-block col-md-6">
+                        <div class="row h-75 align-items-end text-white">
+                            <span class="header">Heb je een vraag voor mij? Je vindt mij hier:</span>
+                        </div>
+                        <div class="row h-25 align-items-center">
+                            <span class="text-large">Telefoon: <a href="tel:+31654656480">+31 6 5465 6480</a></span>
+                            <span class="text-large">E-mail: <a href="mailto:info@jikkeromijn.nl">info@jikkeromijn.nl</a></span>
+                            <span class="text-large">LinkedIn: <a href="https://www.linkedin.com/in/jikkeromijn">jikkeromijn</a></span>
+                        </div>
                     </div>
-                    <div class="col-12 col-xsm-6">
-                        <span class="text-large">E-mail: <a href="mailto:info@jikkeromijn.nl">info@jikkeromijn.nl</a></span>
+                    <div class="d-none d-sm-block d-md-none d-lg-block col-sm-2 col-lg-1"></div>
+                    <div class="d-flex col-12 col-sm-8 col-md-6 col-lg-4 align-items-center justify-content-center">
+                        <form method="post" class="bg-white p-3 w-100 mw-500px rounded-2 border border-grey shadow-lg" action="https://forms.un-static.com/forms/7065cbe67669f1b4d9ad2da18c1b7888119ef62c">
+                            <div class="form-floating  mb-3">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Emailadres" required>
+                                <label for="email" class="form-label">Emailadres</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea name="message" class="form-control" id="message" placeholder="Uw bericht..." required></textarea>
+                                <label for="message" class="form-label">Uw bericht...</label>
+                            </div>
+                            <input type="submit" class="form-control mb-3 btn btn-secondary" value="Versturen">
+                            <span>
+                                <small>(Powered by <a rel="nofollow" href="https://un-static.com" target="_blank">Un-static Forms</a>)</small>
+                            </span>
+                        </form>
                     </div>
                 </div>
-            </section>
-            <section class="scrollsection footer">
-                <img src="/img/banner.jpeg">
             </section>
         </div>
         <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasPMAbottom">
