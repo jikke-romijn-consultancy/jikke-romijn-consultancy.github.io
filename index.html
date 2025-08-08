@@ -293,7 +293,21 @@
                     <div class="d-none d-sm-block d-md-none d-lg-block col-sm-2 col-lg-1"></div>
                     <div class="d-flex col-12 col-sm-8 col-md-6 col-lg-4 align-items-center justify-content-center">
                         <form method="post" class="bg-white p-3 w-100 mw-500px rounded-2 border border-grey shadow-lg" action="https://forms.un-static.com/forms/7065cbe67669f1b4d9ad2da18c1b7888119ef62c">
-                            <div class="form-floating  mb-3">
+                            <div class="row mb-3 g-3">
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Voornaam" required>
+                                        <label for="firstname" class="form-label">Voornaam</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Achternaam" required>
+                                        <label for="lastname" class="form-label">Achternaam</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Emailadres" required>
                                 <label for="email" class="form-label">Emailadres</label>
                             </div>
