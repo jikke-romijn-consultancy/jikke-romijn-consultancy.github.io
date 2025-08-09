@@ -105,73 +105,54 @@
                     <div class="row">
                         <span class="header">Mijn aanpak</span>
                     </div>
-                    <div class="row flex-grow-1 flex-row flex-nowrap scroll-horizontal">
-                        <div class="col-11 col-xsm-10 col-sm-8 col-md-7 col-lg-6 col-xl-4 d-flex flex-column">
-                            <div class="bordered-content flex-grow-1">
-                                <div class="row center">
-                                    <span class="subheader">Samenwerking</span>
+                    <div class="row flex-grow-1">
+                        <div id="approach-carousel" class="owl-carousel owl-theme d-flex flex-column">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    Samenwerking
                                 </div>
-                                <div class="row">
-                                    <span class="text subtext">
+                                <div class="card-body">
+                                    <span class="card-text">
                                         Bij mijn projecten staat samenwerking voorop. Ik geloof dat de
                                         beste resultaten worden behaald door een gezamenlijke aanpak en
                                         gedeeld plezier in het project.
-                                    </span>
-                                </div>
-                                <div class="row">
-                                    <span class="text subtext">
+                                        <br>
                                         De opdrachtgever kent de organisatie en de context. Mijn rol is
                                         om te luisteren, te vertalen naar behoeften en bijpassende stappen
                                         om tot betekenisvolle inzichten te komen.
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-11 col-xsm-10 col-sm-8 col-md-7 col-lg-6 col-xl-4 d-flex flex-column">
-                            <div class="bordered-content flex-grow-1">
-                                <div class="row center">
-                                    <span class="subheader">Flexibiliteit</span>
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    Flexibiliteit
                                 </div>
-                                <div class="row">
-                                    <span class="text subtext">
+                                <div class="card-body">
+                                    <span class="card-text">
                                         Elke situatie is uniek. Soms is de vraag van de opdrachtgever heel
                                         helder en duidelijk geformuleerd, soms help ik bij het formuleren van
                                         de vraag.
-                                    </span>
-                                </div>
-                                <div class="row">
-                                    <span class="text subtext">
+                                        <br>
                                         Soms is er heel veel data beschikbaar en scheid ik hoofd- van bijzaken
                                         om keuzes te kunnen maken.
-                                    </span>
-                                </div>
-                                <div class="row">
-                                    <span class="text subtext">
+                                        <br>
                                         Soms is er een gebrek aan bruikbare data en zorg ik voor aanvullend
                                         onderzoek.
-                                    </span>
-                                </div>
-                                <div class="row">
-                                    <span class="text subtext">
+                                        <br>
                                         Samen vinden we de route naar een succesvolle uitkomst.
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-11 col-xsm-10 col-sm-8 col-md-7 col-lg-6 col-xl-4 d-flex flex-column">
-                            <div class="bordered-content flex-grow-1">
-                                <div class="row center">
-                                    <span class="subheader">Actiegerichtheid</span>
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    Actiegerichtheid
                                 </div>
-                                <div class="row">
-                                    <span class="text subtext">
+                                <div class="card-body">
+                                    <span class="card-text">
                                         Ik word gedreven door de wens een zinvolle bijdrage te leveren.
                                         Dat betekent dat de uitkomsten van data-analyse relevant en concreet
                                         moeten zijn en omgezet moeten kunnen worden in actie.
-                                    </span>
-                                </div>
-                                <div class="row">
-                                    <span class="text subtext">
+                                        <br>
                                         Ik draag graag met opgestroopte mouwen bij aan de uitvoering van
                                         actiepunten en blijf tot implementatie en oplevering graag een
                                         waardevolle spelen voor mijn opdrachtgevers.
@@ -188,7 +169,7 @@
                         <span class="header">Opdrachten</span>
                     </div>
                     <div class="row flex-grow-1">
-                        <div class="owl-carousel owl-theme d-flex flex-column">
+                        <div id="projects-carousel" class="owl-carousel owl-theme d-flex flex-column">
                             <div class="card h-100">
                                 <img src="/img/pma.jpg" class="card-img-top">
                                 <div class="card-body">
@@ -344,7 +325,22 @@
             });
 
             $(document).ready(() => {
-                $(".owl-carousel").owlCarousel({
+                $("#approach-carousel").owlCarousel({
+                    center: true,
+                    margin: 10,
+                    dots: true,
+                    items: 1,
+                    responsive: {
+                        400: { items: 1.5 },
+                        576: { items: 2 },
+                        768: { items: 2.5 },
+                        992: { items: 3 },
+                        1200: { items: 3.5 },
+                        1400: { items: 4 }
+                    }
+                });
+
+                $("#projects-carousel").owlCarousel({
                     center: true,
                     loop: true,
                     margin: 10,
