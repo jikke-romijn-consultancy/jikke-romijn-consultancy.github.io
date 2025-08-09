@@ -1,6 +1,8 @@
 @import "bootstrap.scss";
 @import "owl.theme.scss";
 
+$main-colour: #00a8a8;
+
 @keyframes bounce {
     0%, 20%, 50%, 80%, 100% {
         transform: translateY(0) rotate(45deg);
@@ -291,4 +293,10 @@ body {
         object-fit: contain;
         height: 150px;
     }
+}
+
+.footer {
+    height: 100px !important;
+    background-color: $main-colour;
+    color: white;
 }
