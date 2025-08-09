@@ -225,7 +225,7 @@
             var position = 0;
 
             for (let i = 0; i < this.defaults.currentPosition; i++) {
-                position += heights[i + 1];
+                position += heights[i + 1] + 0.2;
             }
 
             this.defaults.container.style.webkitTransform = 'translateY(-' + position + 'px)';
