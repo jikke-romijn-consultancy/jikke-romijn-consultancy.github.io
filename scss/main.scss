@@ -28,10 +28,13 @@ $main-colour: #00a8a8;
     font-style: italic;
 }
 
-body {
+@font-face {
     font-family: MontSerrat;
     src: url("/fonts/Montserrat-VariableFont_wght.ttf");
-    font-weight: 100 1000;
+}
+
+body {
+    font-family: MontSerrat;
 }
 
 .scrollsection {
@@ -124,22 +127,6 @@ body {
 
 .text {
     font-size: min(calc(0.7vw + 0.7rem), 1.2rem);
-}
-
-.text-shrink {
-    font-size: calc(0.9vw + 0.4rem);
-}
-
-@include media-breakpoint-up(sm) {
-    .text-shrink {
-        font-size: calc(0.7vw + 0.6rem);
-    }   
-}
-
-@include media-breakpoint-up(md) {
-    .text-shrink {
-        font-size: calc(0.7vw + 0.7rem);
-    }   
 }
 
 .fill {
