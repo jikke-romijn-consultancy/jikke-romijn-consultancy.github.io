@@ -31,6 +31,7 @@ $main-colour: #00a8a8;
 @font-face {
     font-family: MontSerrat;
     src: url("/fonts/Montserrat-VariableFont_wght.ttf");
+    font-weight: 100 1000;
 }
 
 body {
@@ -49,7 +50,11 @@ body {
 }
 
 .dark .subtext {
-    color: #c5c5c5;
+    color: whitesmoke;
+}
+
+.bold {
+    font-weight: 600;
 }
 
 .about-image {
@@ -130,7 +135,7 @@ body {
 }
 
 .subtext {
-    color: #525252;
+    color: black;
     margin-bottom: 20px;
 }
 
@@ -296,7 +301,7 @@ body {
 }
 
 .contact {
-    font-size: min(calc(1vw + 0.9rem), 1.6rem);
+    font-size: min(calc(1vw + 0.9rem), 1.4rem);
 }
 
 .phone::before {
