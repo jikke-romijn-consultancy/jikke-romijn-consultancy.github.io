@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </section>
-            <section class="scrollsection">
+            <section class="scrollsection dark">
                 <div class="container-md p-4 d-flex flex-column">
                     <div class="row">
                         <span class="header">Wat ik doe</span>
@@ -245,47 +245,55 @@
             </section>
             <section class="scrollsection position-relative">
                 <div class="contact-image"></div>
-                <div class="container-md p-4 d-flex z-1">
-                    <div class="d-none d-md-block col-md-6">
-                        <div class="row h-75 align-items-end text-white">
-                            <span class="header">Heb je een vraag voor mij? Je vindt mij hier:</span>
+                <div class="container-md d-flex flex-column z-1">
+                    <div class="row flex-grow-1">
+                        <div class="d-none d-md-block col-md-6">
+                            <div class="row h-75 align-items-end text-white">
+                                <span class="header">Heb je een vraag voor mij? Je vindt mij hier:</span>
+                            </div>
                         </div>
-                        <div class="row h-25 align-items-center">
-                            <span class="text-large">Telefoon: <a href="tel:+31654656480">+31 6 5465 6480</a></span>
-                            <span class="text-large">E-mail: <a href="mailto:info@jikkeromijn.nl">info@jikkeromijn.nl</a></span>
-                            <span class="text-large">LinkedIn: <a href="https://www.linkedin.com/in/jikkeromijn">jikkeromijn</a></span>
+                        <div class="d-none d-sm-block d-md-none d-lg-block col-sm-2 col-lg-1"></div>
+                        <div class="d-flex col-12 col-sm-8 col-md-6 col-lg-4 align-items-center justify-content-center">
+                            <form method="post" class="bg-white p-3 w-100 mw-500px rounded-2 border border-grey shadow-lg" action="https://forms.un-static.com/forms/7065cbe67669f1b4d9ad2da18c1b7888119ef62c">
+                                <div class="row mb-3 g-3">
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Voornaam" required>
+                                            <label for="firstname" class="form-label">Voornaam</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Achternaam" required>
+                                            <label for="lastname" class="form-label">Achternaam</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Emailadres" required>
+                                    <label for="email" class="form-label">Emailadres</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea name="message" class="form-control" id="message" placeholder="Uw bericht..." required></textarea>
+                                    <label for="message" class="form-label">Uw bericht...</label>
+                                </div>
+                                <input type="submit" class="form-control mb-3 btn btn-secondary" value="Versturen">
+                                <span>
+                                    <small>(Powered by <a rel="nofollow" href="https://un-static.com" target="_blank">Un-static Forms</a>)</small>
+                                </span>
+                            </form>
                         </div>
                     </div>
-                    <div class="d-none d-sm-block d-md-none d-lg-block col-sm-2 col-lg-1"></div>
-                    <div class="d-flex col-12 col-sm-8 col-md-6 col-lg-4 align-items-center justify-content-center">
-                        <form method="post" class="bg-white p-3 w-100 mw-500px rounded-2 border border-grey shadow-lg" action="https://forms.un-static.com/forms/7065cbe67669f1b4d9ad2da18c1b7888119ef62c">
-                            <div class="row mb-3 g-3">
-                                <div class="col-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Voornaam" required>
-                                        <label for="firstname" class="form-label">Voornaam</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Achternaam" required>
-                                        <label for="lastname" class="form-label">Achternaam</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Emailadres" required>
-                                <label for="email" class="form-label">Emailadres</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <textarea name="message" class="form-control" id="message" placeholder="Uw bericht..." required></textarea>
-                                <label for="message" class="form-label">Uw bericht...</label>
-                            </div>
-                            <input type="submit" class="form-control mb-3 btn btn-secondary" value="Versturen">
-                            <span>
-                                <small>(Powered by <a rel="nofollow" href="https://un-static.com" target="_blank">Un-static Forms</a>)</small>
-                            </span>
-                        </form>
+                    <div class="row h-25 d-flex contact align-items-center">
+                        <div class="col-12 col-lg-4">
+                            <a href="tel:+31654656480" class="phone">+31 6 5465 6480</a>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <a href="mailto:info@jikkeromijn.nl" class="email">info@jikkeromijn.nl</a>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <a href="https://www.linkedin.com/in/jikkeromijn" class="linkedin">jikkeromijn</a>
+                        </div>
                     </div>
                 </div>
             </section>
